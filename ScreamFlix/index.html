@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScreamFlix - Filmes e Séries (Nova Paleta)</title>
+    <!-- Carregando o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração do Tailwind para adicionar as cores Oklch personalizadas -->
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'main-bg': 'oklch(14.1% 0.005 285.823)',   // 60% da paleta
+                'secondary-bg': 'oklch(14.5% 0 0)',        // 20% da paleta
+                'accent': 'oklch(57.7% 0.245 27.325)',     // 10% da paleta (destaque)
+                'accent-dark': 'oklch(53% 0.23 27.325)'    // Tom mais escuro do destaque para hover
+              }
+            }
+          }
+        }
+    </script>
+    <!-- Estilos personalizados para animações -->
+    <style>
+        /* Animação para o conteúdo principal aparecer */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        /* Animação para o modal aparecer com escala */
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        /* Classes para animação de rolagem */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-main-bg text-gray-300 font-sans">
+
+    <!-- <nav>: Define a seção principal de navegação -->
+    <nav class="bg-secondary-bg bg-opacity-75 p-4 fixed top-0 left-0 right-0 z-20 backdrop-blur-sm border-b border-gray-900">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                <span class="text-accent">Scream</span><span class="text-white">Flix</span>
+            </a>
+            
+            <ul class="hidden md:flex space-x-8 items-center">
+                <li><a href="#" class="border-b-2 border-transparent hover:border-accent pb-1 transition-all duration-300">Início</a></li>
+                <li><a href="#" class="border-b-2 border-transparent hover:border-accent pb-1 transition-all duration-300">Filmes</a></li>
+                <li><a href="#" class="border-b-2 border-transparent hover:border-accent pb-1 transition-all duration-300">Séries</a></li>
+                <li><a href="#" class="border-b-2 border-transparent hover:border-accent pb-1 transition-all duration-300">Minha Lista</a></li>
+            </ul>
+
+            <div class="hidden md:flex items-center space-x-4">
+                <button id="login-modal-button" class="hover:text-accent transition-colors duration-300">Login</button>
+            </div>
+
+            <div class="md:hidden">
+                <button aria-label="Abrir menu" class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- <header>: Cabeçalho introdutório da página -->
+    <header class="h-screen bg-cover bg-center flex items-end" style="background-image: url('https://image.tmdb.org/t/p/original/h3X1AABD2k2sMhM9B2S7jt5iL3M.jpg');">
+        <div class="bg-gradient-to-t from-main-bg via-main-bg/50 to-transparent w-full">
+            <div class="container mx-auto px-4 pb-16 animate-fade-in-up">
+                <h1 class="text-5xl font-bold text-white mb-4">Planeta dos Macacos: O Reinado</h1>
+                <p class="text-lg max-w-2xl mb-6">Várias gerações após o reinado de César, os macacos são agora a espécie dominante e vivem harmoniosamente, enquanto os humanos foram reduzidos a viver nas sombras.</p>
+                <button class="bg-transparent border-2 border-accent text-white font-bold py-3 px-8 rounded-md hover:bg-accent transition-all duration-300 transform hover:scale-105">
+                    Assistir Agora
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- <main>: Conteúdo principal -->
+    <main class="container mx-auto px-4 py-10">
+        <!-- Seções de filmes foram removidas conforme solicitado -->
+    </main>
+
+    <!-- <footer>: Rodapé da página -->
+    <footer class="bg-secondary-bg text-gray-400 text-center py-6">
+        <div class="container mx-auto">
+            <p>&copy; 2025 ScreamFlix. Todos os direitos reservados.</p>
+            <ul class="flex justify-center space-x-6 mt-4">
+                <li><a href="#" class="hover:text-accent transition-colors duration-300">Facebook</a></li>
+                <li><a href="#" class="hover:text-accent transition-colors duration-300">Twitter</a></li>
+                <li><a href="#" class="hover:text-accent transition-colors duration-300">Instagram</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Modal de Autenticação -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div id="auth-modal-content" class="bg-secondary-bg p-8 rounded-lg shadow-xl w-full max-w-md relative border border-gray-800 animate-scale-in">
+            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex border-b border-gray-700 mb-6">
+                <button id="login-tab" class="py-2 px-4 border-b-2 border-accent text-white w-1/2">Entrar</button>
+                <button id="register-tab" class="py-2 px-4 border-b-2 border-transparent text-gray-400 w-1/2">Cadastrar</button>
+            </div>
+            <form id="login-form" class="space-y-6">
+                 <div>
+                    <label for="login-email" class="block mb-2 text-sm font-medium text-gray-300">Email</label>
+                    <input type="email" id="login-email" class="bg-main-bg border border-gray-700 text-white text-sm rounded-lg focus:ring-accent focus:border-accent block w-full p-2.5" placeholder="nome@email.com" required>
+                </div>
+                <div>
+                    <label for="login-password" class="block mb-2 text-sm font-medium text-gray-300">Senha</label>
+                    <input type="password" id="login-password" class="bg-main-bg border border-gray-700 text-white text-sm rounded-lg focus:ring-accent focus:border-accent block w-full p-2.5" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="w-full text-white bg-accent hover:bg-accent-dark focus:ring-4 focus:outline-none focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Entrar na sua conta</button>
+            </form>
+            <form id="register-form" class="hidden space-y-6">
+                <div>
+                    <label for="register-name" class="block mb-2 text-sm font-medium text-gray-300">Nome</label>
+                    <input type="text" id="register-name" class="bg-main-bg border border-gray-700 text-white text-sm rounded-lg focus:ring-accent focus:border-accent block w-full p-2.5" placeholder="Seu nome" required>
+                </div>
+                <div>
+                    <label for="register-email" class="block mb-2 text-sm font-medium text-gray-300">Email</label>
+                    <input type="email" id="register-email" class="bg-main-bg border border-gray-700 text-white text-sm rounded-lg focus:ring-accent focus:border-accent block w-full p-2.5" placeholder="nome@email.com" required>
+                </div>
+                <div>
+                    <label for="register-password" class="block mb-2 text-sm font-medium text-gray-300">Senha</label>
+                    <input type="password" id="register-password" class="bg-main-bg border border-gray-700 text-white text-sm rounded-lg focus:ring-accent focus:border-accent block w-full p-2.5" placeholder="••••••••" required>
+                </div>
+                 <div>
+                    <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-300">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" class="bg-main-bg border border-gray-700 text-white text-sm rounded-lg focus:ring-accent focus:border-accent block w-full p-2.5" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="w-full text-white bg-accent hover:bg-accent-dark focus:ring-4 focus:outline-none focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Criar conta</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- Animação de rolagem ---
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
+        };
+        const displayScrollElement = (element) => {
+            element.classList.add('is-visible');
+        };
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation(); // Executa uma vez no carregamento
+
+        // --- Lógica do Modal ---
+        const loginModalButton = document.getElementById('login-modal-button');
+        const authModal = document.getElementById('auth-modal');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        loginModalButton.addEventListener('click', () => authModal.classList.remove('hidden'));
+        const closeModal = () => authModal.classList.add('hidden');
+        closeModalButton.addEventListener('click', closeModal);
+        authModal.addEventListener('click', (event) => {
+            if (event.target === authModal) closeModal();
+        });
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('border-accent', 'text-white');
+            loginTab.classList.remove('border-transparent', 'text-gray-400');
+            registerTab.classList.add('border-transparent', 'text-gray-400');
+            registerTab.classList.remove('border-accent', 'text-white');
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+        });
+        registerTab.addEventListener('click', () => {
+            registerTab.classList.add('border-accent', 'text-white');
+            registerTab.classList.remove('border-transparent', 'text-gray-400');
+            loginTab.classList.add('border-transparent', 'text-gray-400');
+            loginTab.classList.remove('border-accent', 'text-white');
+            registerForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+    </script>
+
+</body>
+</html>
